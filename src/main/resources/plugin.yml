@@ -1,0 +1,4 @@
+name: GlobalEffects
+version: '1.0'
+main: com.aaloway.globaleffects.GlobalEffects
+api-version: '1.19'

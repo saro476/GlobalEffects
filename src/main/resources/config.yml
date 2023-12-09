@@ -1,0 +1,60 @@
+# Worlds this plugin will execute on
+worlds:
+  overworld: true
+  nether: true
+  the_end: true
+
+# The duration of the effect.
+# Effects will persist until the end of the duration after moving to a disabled world (see above)
+# Longer duration means less processing but longer delay after world switch
+# Duration is in ticks
+duration: 600
+
+# Delay after a player joins the server before applying effects
+# This does not apply to switching worlds
+# Increase this number if some players take a long time to connect
+# Delay is in ticks
+join-delay: 400
+
+# Effects to add to all players in the allowed worlds
+# Effects stack on top of other effects like potions and beacons
+# Set to 0 to disable
+# Negative effects are not possible, but setting to a negative
+# number will reduce the effects of potions, beacons, etc.
+# The value indicates the level of the effect
+effects:
+  ABSORPTION: 0
+  BAD_OMEN: 0
+  BLINDNESS: 0
+  CONDUIT_POWER: 0
+  CONFUSION: 0
+  DAMAGE_RESISTANCE: 0
+  DARKNESS: 0
+  DOLPHINS_GRACE: 0
+  FAST_DIGGING: 0
+  FIRE_RESISTANCE: 0
+  GLOWING: 0
+  HARM: 0
+  HEAL: 0
+  HEALTH_BOOST: 0
+  HERO_OF_THE_VILLAGE: 0
+  HUNGER: 0
+  INCREASE_DAMAGE: 0
+  INVISIBILITY: 0
+  JUMP: 0
+  LEVITATION: 0
+  LUCK: 0
+  NIGHT_VISION: 0
+  POISON: 0
+  SATURATION: 0
+  SLOW: 0
+  SLOW_DIGGING: 0
+  SLOW_FALLING: 0
+  SPEED: 0
+  UNLUCK: 0
+  WATER_BREATHING: 0
+  WEAKNESS: 0
+  WITHER: 0
+
+# Enables debug output
+debug: false
