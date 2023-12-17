@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
@@ -92,13 +93,38 @@ public class GlobalEffects extends JavaPlugin implements Listener {
     }
 
     @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+
+        if ( event == null || event.getPlayer() == null || !checkWorld(event.getPlayer()) ) {
+            return;
+        }
+        
+        debugLogger(event.getPlayer().getName() + " respawned, delaying effects " + this.config.getInt("respawn-delay") + " ticks" );
+
+        ConcurrentHashMap<PotionEffectType,PotionEffect> effects = this.effects;
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                debugLogger( "Applying delayed effects for " + event.getPlayer().getName() );
+                for ( Entry<PotionEffectType,PotionEffect> entry : effects.entrySet() ) {
+                    resetEffect(event.getPlayer(), entry.getKey());
+                }
+            }
+        }.runTaskLater(this, this.config.getInt("respawn-delay"));
+
+    }
+
+    @EventHandler
     public void onPotionEffect(EntityPotionEffectEvent event) {
 
         if ( event.isCancelled()
             || event.getCause() == EntityPotionEffectEvent.Cause.UNKNOWN 
             || event.getCause() == EntityPotionEffectEvent.Cause.PLUGIN 
-            || event.getCause() == EntityPotionEffectEvent.Cause.COMMAND ) {
+            || event.getCause() == EntityPotionEffectEvent.Cause.COMMAND 
+            || event.getCause() == EntityPotionEffectEvent.Cause.DEATH ) {
             // Ignore events caused by this or other plugins
+            // Ignore death and add at respawn
             return;
         }
 
