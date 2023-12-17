@@ -16,6 +16,11 @@ duration: 600
 # Delay is in ticks
 join-delay: 400
 
+# Delay after a player respawns after death before applying effects
+# Increase this number if some players take a long time to respawn
+# Delay is in ticks
+respawn-delay: 100
+
 # Effects to add to all players in the allowed worlds
 # Effects stack on top of other effects like potions and beacons
 # Set to 0 to disable
