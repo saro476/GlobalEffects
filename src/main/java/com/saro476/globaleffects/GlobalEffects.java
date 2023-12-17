@@ -14,16 +14,16 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
 import java.util.Set;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class GlobalEffects extends JavaPlugin implements Listener {
 
     // private PotionEffect[] effects = new PotionEffect[2];
     private FileConfiguration config = null;
-    private HashMap<PotionEffectType,PotionEffect> effects = new HashMap<PotionEffectType,PotionEffect>();
+    private ConcurrentHashMap<PotionEffectType,PotionEffect> effects = new ConcurrentHashMap<PotionEffectType,PotionEffect>();
 
     private boolean debug = false;
 
@@ -63,7 +63,7 @@ public class GlobalEffects extends JavaPlugin implements Listener {
         
         debugLogger(event.getPlayer().getName() + " joined the world, delaying effects " + this.config.getInt("join-delay") + " ticks" );
 
-        HashMap<PotionEffectType,PotionEffect> effects = this.effects;
+        ConcurrentHashMap<PotionEffectType,PotionEffect> effects = this.effects;
 
         new BukkitRunnable() {
             @Override
