@@ -118,7 +118,9 @@ public class GlobalEffects extends JavaPlugin implements Listener {
     @EventHandler
     public void onPotionEffect(EntityPotionEffectEvent event) {
 
-        if ( event.isCancelled()
+        if ( event == null
+            || event.isCancelled()
+            || event.getCause() == null
             || event.getCause() == EntityPotionEffectEvent.Cause.UNKNOWN 
             || event.getCause() == EntityPotionEffectEvent.Cause.PLUGIN 
             || event.getCause() == EntityPotionEffectEvent.Cause.COMMAND 
@@ -156,7 +158,12 @@ public class GlobalEffects extends JavaPlugin implements Listener {
 
         PotionEffect e2 = this.effects.get(e.getType());
 
-        PotionEffect e3 = new PotionEffect(e.getType(), e.getDuration(), e.getAmplifier() + e2.getAmplifier(), e.isAmbient(), e.hasParticles(), e.hasIcon() );
+        if ( e2 == null ) {
+            return false;
+        }
+
+        PotionEffect e3 = new PotionEffect(e.getType(), e.getDuration(), (e.getAmplifier() + 1 + e2.getAmplifier() + 1) - 1, e.isAmbient(), e.hasParticles(), e.hasIcon() );
+        // debugLogger("Adding effect " + e.getType() + "( (" + e.getAmplifier() + " + 1) + (" + e2.getAmplifier() + " + 1) - 1) to " + p.getName() + " for " + e.getDuration() + " ticks");
 
         return applyEffect(p, e3);
     }
@@ -167,6 +174,8 @@ public class GlobalEffects extends JavaPlugin implements Listener {
             return false;
         }
         PotionEffect e = this.effects.get(et);
+
+        // debugLogger("Resetting effect " + e.getType() + "(" + e.getAmplifier() + ") to " + p.getName() + " for " + e.getDuration() + " ticks");
 
         return applyEffect(p, e);
     }
